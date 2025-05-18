@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import {fileURLToPath} from "url";
-import {v4 as uuidv4} from "uuid";
+import { nanoid } from "nanoid";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +13,7 @@ async function readContactsFile() {
         const data = await fs.readFile(contactsPath, "utf-8");
         return JSON.parse(data);
     } catch (error) {
-        console.error("Помилка читання файлу:", error.message);
+        console.error("Error reading file:", error.message);
         return [];
     }
 }
@@ -22,7 +22,7 @@ async function writeContactsFile(contacts) {
     try {
         await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
     } catch (error) {
-        console.error("Помилка запису у файл:", error.message);
+        console.error("Error writing to file:", error.message);
     }
 }
 
@@ -51,7 +51,7 @@ async function addContact(name, email, phone) {
     const contacts = await readContactsFile();
 
     const newContact = {
-        id: uuidv4(),
+        id: nanoid(),
         name,
         email,
         phone,
